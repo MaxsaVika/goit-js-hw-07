@@ -38,18 +38,18 @@ function getLargeImage(event) {
 }
 
 function createLargeImage(url) {
-  document.body.addEventListener("keydown", onCloseByEsc);
-
   const instance = basicLightbox.create(
     `
     <img width="1400" height="900" src="${url}"/>
-  `
+  `,
+    {
+      onShow: () => document.body.addEventListener("keydown", onCloseByEsc),
+      onClose: () => document.body.removeEventListener("keydown", onCloseByEsc),
+    }
   );
   instance.show();
 
   function onCloseByEsc(event) {
-    document.body.removeEventListener("keydown", onCloseByEsc);
-
     if (event.code === "Escape") instance.close();
   }
 }
